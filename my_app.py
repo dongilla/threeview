@@ -1,5 +1,3 @@
-# streamlit 앱 전체 기능 통합 버전 (설문 기반 미디어 성향 시각화)
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,16 +12,27 @@ import re
 import matplotlib
 import os
 
-# 기본 폰트 설정 (NanumGothic이 없을 경우 시스템 기본으로 fallback)
+# 폰트 설정: NanumGothic 없으면 fallback
 font_path = "NanumGothic.ttf"
 if os.path.exists(font_path):
     font_prop = fm.FontProperties(fname=font_path)
     plt.rc("font", family=font_prop.get_name())
 else:
-    font_prop = fm.FontProperties()
-    plt.rc("font", family=font_prop.get_name())
+    plt.rc("font", family="DejaVu Sans")  # fallback
 
 matplotlib.rcParams['axes.unicode_minus'] = False
+
+@st.cache_data
+def load_data():
+    df = pd.read_csv("Realfinaldata.csv")
+    return df
+
+df = load_data()
+
+st.title("📰 설문 기반 미디어 성향 시각화 대시보드")
+
+# 이하 원본 코드 유지
+
 
 # CSV 불러오기
 @st.cache_data
